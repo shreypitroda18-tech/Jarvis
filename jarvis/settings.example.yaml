@@ -1,0 +1,241 @@
+# ==============================================================================
+# JARVIS Configuration & Whitelist Settings Template
+# Copy this file to jarvis/settings.yaml and customize for your system.
+# ==============================================================================
+
+assistant:
+  name: "JARVIS"
+  persona: "butler"
+  max_spoken_sentences: 3
+  address_user_as: "sir"
+
+# Whitelist for applications that can be launched via open_app
+# Maps lowercase name / alias to executable path or system command
+apps:
+  notepad: "notepad.exe"
+  calculator: "calc.exe"
+  calc: "calc.exe"
+  paint: "mspaint.exe"
+  cmd: "cmd.exe"
+  terminal: "wt.exe"
+  powershell: "powershell.exe"
+  explorer: "explorer.exe"
+  chrome: "chrome.exe"
+  edge: "msedge.exe"
+  vscode: "code"
+  code: "code"
+  spotify: "spotify.exe"
+  taskmgr: "taskmgr.exe"
+
+# Browser Selection (options: "default", "chrome", "edge", "firefox")
+browser: "default"
+
+# Whitelisted favorite sites (opened directly by name)
+favorite_sites:
+  google: "https://www.google.com"
+  youtube: "https://www.youtube.com"
+  netflix: "https://www.netflix.com"
+  amazon: "https://www.amazon.com"
+  spotify: "https://open.spotify.com"
+  github: "https://github.com"
+  reddit: "https://www.reddit.com"
+  gmail: "https://mail.google.com"
+  chatgpt: "https://chatgpt.com"
+  gemini: "https://gemini.google.com"
+  stackoverflow: "https://stackoverflow.com"
+  wikipedia: "https://www.wikipedia.org"
+  twitter: "https://x.com"
+  x: "https://x.com"
+
+# Known site search URL patterns for open_site_search
+site_search_templates:
+  youtube: "https://www.youtube.com/results?search_query={query}"
+  netflix: "https://www.netflix.com/search?q={query}"
+  google: "https://www.google.com/search?q={query}"
+  amazon: "https://www.amazon.com/s?k={query}"
+  wikipedia: "https://en.wikipedia.org/wiki/Special:Search?search={query}"
+  github: "https://github.com/search?q={query}"
+  spotify: "https://open.spotify.com/search/{query}"
+
+# Allowed base folders for list_files, find_file, open_file
+# Restricts file exploration strictly to these directories
+allowed_paths:
+  - "C:\\Users\\YOUR_NAME\\Documents"
+  - "C:\\Users\\YOUR_NAME\\Downloads"
+  - "C:\\Users\\YOUR_NAME\\Desktop"
+
+# Voice & Audio Configuration
+voice:
+  mic_enabled: true
+  hotkey: "F8"
+  quit_hotkey: "ctrl+alt+q"
+  input_device: null               # null for system default, or integer index / name string
+  output_device: null              # null for system default, or integer index / name string
+  stt_model: "small"               # tiny, base, small, medium
+  stt_device: "cpu"                # "cpu" (recommended) or "cuda" / "auto"
+  stt_compute_type: "int8"         # "int8" for CPU, "float16" for CUDA
+  tts_engine: "windows"            # options: "windows" (pyttsx3/SAPI). Architecture ready for "piper", "edge"
+  tts_voice: null                  # specific voice name or null for default
+  tts_rate: 185                    # words per minute
+  tts_volume: 1.0                  # 0.0 to 1.0
+  confirmations_by_voice: true
+  allow_high_risk_voice_confirmation: false
+  max_utterance_seconds: 15.0
+  silence_duration_seconds: 1.2
+  energy_threshold: 0.015          # RMS threshold for voice activity
+  wakeword_enabled: false          # push-to-talk F8 is default
+  wake_word: "hey jarvis"
+
+# Safety & Logging
+safety:
+  require_confirmation_for_medium: true
+  require_confirmation_for_high: true
+  allow_high_risk_voice_confirmation: false
+  # Administrative tools requiring explicit typed confirmation
+  confirm_apps:
+    - "cmd"
+    - "powershell"
+    - "pwsh"
+    - "terminal"
+    - "wt"
+    - "regedit"
+    - "taskschd"
+    - "gpedit"
+    - "services"
+    - "mmc"
+  # Utilities blocked from automated execution
+  blocked_apps:
+    - "format"
+    - "diskpart"
+    - "unins000"
+    - "uninstall"
+    - "setup"
+    - "installer"
+  log_level: "INFO"
+  log_file: "logs/jarvis.log"
+  audit_file: "logs/audit.log"
+  max_log_bytes: 5242880 # 5 MB
+  backup_count: 5
+
+# LLM Provider & Fallback Configuration
+llm:
+  notify_on_fallback: false
+  per_minute_max_retries: 2
+  per_minute_backoff_seconds: 1.5
+  default_cooldown_seconds: 60
+  daily_quota_cooldown_seconds: 3600
+  ollama_context_tokens: 8192
+  ollama_keep_alive: "15m"
+
+# Step B: Computer & Browser Automation Configuration
+automation:
+  browser_profile_dir: "browser_profile"
+  max_actions_per_turn: 15
+  killswitch_hotkey: "ctrl+alt+s"
+  automation_allowed_domains:
+    - "youtube.com"
+    - "netflix.com"
+    - "google.com"
+    - "wikipedia.org"
+    - "github.com"
+    - "spotify.com"
+    - "amazon.com"
+  automation_blocked_domains:
+    - "paypal.com"
+    - "chase.com"
+    - "bankofamerica.com"
+    - "wellsfargo.com"
+    - "citi.com"
+    - "capitalone.com"
+    - "stripe.com"
+    - "1password.com"
+    - "bitwarden.com"
+    - "lastpass.com"
+    - "dashlane.com"
+    - "login.live.com"
+    - "accounts.google.com"
+  allowed_key_combos:
+    - "enter"
+    - "tab"
+    - "escape"
+    - "backspace"
+    - "space"
+    - "up"
+    - "down"
+    - "left"
+    - "right"
+    - "home"
+    - "end"
+    - "pageup"
+    - "pagedown"
+    - "ctrl+c"
+    - "ctrl+v"
+    - "ctrl+a"
+    - "ctrl+z"
+    - "ctrl+s"
+    - "ctrl+f"
+  forbidden_key_combos:
+    - "win+r"
+    - "alt+f4"
+    - "ctrl+alt+del"
+    - "win+l"
+    - "ctrl+w"
+    - "ctrl+shift+w"
+  high_risk_keywords:
+    - "send"
+    - "post"
+    - "buy"
+    - "pay"
+    - "subscribe"
+    - "delete"
+    - "submit"
+    - "download"
+    - "install"
+    - "purchase"
+    - "order"
+    - "transfer"
+
+# General Computer Operator Configuration
+operator:
+  enabled: false
+  max_steps: 25
+  max_seconds: 120
+  vision_provider: "none"
+  voice_confirm_medium: true
+  voice_confirm_high: false
+  spoken_updates: "sparse"
+  wake_word_enabled: false
+  browser_mode: "normal"
+  providers:
+    - "groq"
+  blocked_apps:
+    - "cmd"
+    - "powershell"
+    - "pwsh"
+    - "windowsterminal"
+    - "wt"
+    - "taskmgr"
+    - "regedit"
+    - "format"
+    - "diskpart"
+    - "1password"
+    - "bitwarden"
+    - "lastpass"
+    - "dashlane"
+    - "keepass"
+  blocked_domains:
+    - "paypal.com"
+    - "chase.com"
+    - "bankofamerica.com"
+    - "wellsfargo.com"
+    - "citi.com"
+    - "capitalone.com"
+    - "stripe.com"
+    - "1password.com"
+    - "bitwarden.com"
+    - "lastpass.com"
+    - "dashlane.com"
+    - "login.live.com"
+    - "accounts.google.com"
+  approved_apps: []
+  approved_domains: []

@@ -1,0 +1,12 @@
+#!/bin/sh
+# JARVIS Pre-Push Hook: Secret scanning on outgoing commits
+if [ -f ".venv/Scripts/python.exe" ]; then
+    PYTHON=".venv/Scripts/python.exe"
+elif [ -f ".venv/bin/python" ]; then
+    PYTHON=".venv/bin/python"
+else
+    PYTHON="python"
+fi
+
+"$PYTHON" scripts/check_secrets.py --pre-push
+exit $?
